@@ -1,0 +1,47 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static "bootstrap-3.3.2/css/bootstrap.css" %}">
+</head>
+<body ng-app="{% block ng_app %}testApp{% endblock %}" ng-controller="{% block ng_controller %}AppController as ctrl{% endblock %}">
+    <div class="container">
+ <div class="row">
+  <div class="col-md-6">
+    <div class="content" >{% block content %}
+{% verbatim %}
+    <div class="panel" ng-repeat="domain in ctrl.domains">
+        {{ domain.name }}
+        <form name="addForm">
+            <input type="radio"
+name="gender"
+ng-model="ctrl.data[$index].action"
+value="Deny">Deny
+<input type="radio"
+name="gender"
+ng-model="ctrl.data[$index].action"
+value="Permit">Permit
+        </form>
+        <button ng-click="ctrl.sendDataToSocket(domain.name,$index)">click</button>
+    </div>
+
+</div>
+  </div>
+  <div class="col-md-6">
+    <div >
+       <span >{{ ctrl.response }} </span> 
+    </div>
+    
+  </div>
+ </div>  
+</div>
+{% endverbatim %}
+{% endblock %}
+
+
+<!--<script src="{% static "underscore/underscore.js" %}"></script>-->
+<script src="{% static "angular/angular.min.js" %}"></script>
+<!--<script src="{% static "angular-resource/angular-resource.js" %}"></script>-->
+<script src="{% static "js/script.js" %}"></script>
+</body>
+</html>
