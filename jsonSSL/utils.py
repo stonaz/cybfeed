@@ -4,7 +4,7 @@ import socket, ssl, pprint
 from django.conf import settings
 
 def jsonSSL_socket(json_request):
-    CERTS_DIR = os.path.dirname(__file__) + '/cert/'
+    CERTS_DIR = os.path.dirname(__file__) + '/certs/'
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     ssl_sock = ssl.wrap_socket(s,
                            ca_certs= CERTS_DIR + "root.crt",
