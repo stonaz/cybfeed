@@ -28,6 +28,7 @@ class SocketApi(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, )
     def post(self,request):
         print request.user
+        print request.body
         socket_request = request.body
         try:
             socket_response = jsonSSL_socket(socket_request)

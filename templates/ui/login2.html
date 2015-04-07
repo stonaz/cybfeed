@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static "bootstrap-3.3.2/css/bootstrap.css" %}">
+
+        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+        <title>Login</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+            <form id="login_form" class="form-signin" role="form" method="post" action="/ui/login2/">
+            <h2 class="form-signin-heading">Login</h2>
+            {% csrf_token %}
+
+            
+            {% for field in form.visible_fields %}
+                
+            
+                {{ field }}
+            {% endfor %}
+            
+            {% if errors %}
+    <ul>
+    {% for k,v in errors %}
+        <li><strong>{{ v }}</strong></li>
+    {% endfor %}
+    </ul>
+{% endif %}
+            
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />Sign in</button>
+        </form>   
+                    
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+    
+    
+        
+
+
+
+    </body>
+</html>

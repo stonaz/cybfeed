@@ -1,4 +1,4 @@
-var cyberFeed = angular.module('cyberFeed', [])
+var cyberFeed = angular.module('cyberFeed', ['cyberFeedServices'])
 
 cyberFeed.controller('cyberFeedController', ['$scope', 'sendData', function ($scope, sendData) {
     console.log('controller created')
@@ -13,24 +13,20 @@ cyberFeed.controller('cyberFeedController', ['$scope', 'sendData', function ($sc
             $scope.response = newValue;
         }
     }, true);
-
-    scope.domains = [{
-        id: 1,
-        name: 'www.example.com'
-    }, {
-        id: 2,
-        name: 'www.example.it'
-    }, {
-        id: 3,
-        name: 'www.example.org'
-    }, {
-        id: 4,
-        name: 'www.example.net'
-    }];
+    
+    //scope.domains = sendData.domains;
+    
+    scope.setData = function(data) {
+        console.log(data)
+        scope.domains = data;
+    }
+         
+    sendData.getXML(scope.setData);
+   
 
     scope.callService = function () {
         sendData.list();
-    }
+    };
 
 
     scope.sendDataToSocket = function (name, index) {
@@ -71,28 +67,28 @@ cyberFeed.controller('cyberFeedController', ['$scope', 'sendData', function ($sc
     }
 }]);
 
-cyberFeed.factory('sendData', ['$http',
-
-function ($http) {
-    var message = ''
-    return {
-        output: function () {
-            return (message)
-        },
-        send: function (json) {
-            $http.post('/socket/', json).
-            success(function (data, status, headers, config) {
-                console.log(data)
-                message = data;
-            }).
-            error(function (data, status, headers, config) {
-                console.log(data)
-                message = data.Error;
-            });
-        }
-    };
-}])
-    .config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-}]);
+//cyberFeed.factory('sendData', ['$http',
+//
+//function ($http) {
+//    var message = ''
+//    return {
+//        output: function () {
+//            return (message)
+//        },
+//        send: function (json) {
+//            $http.post('/socket/', json).
+//            success(function (data, status, headers, config) {
+//                console.log(data)
+//                message = data;
+//            }).
+//            error(function (data, status, headers, config) {
+//                console.log(data)
+//                message = data.Error;
+//            });
+//        }
+//    };
+//}])
+//    .config(['$httpProvider', function ($httpProvider) {
+//    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+//    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+//}]);
