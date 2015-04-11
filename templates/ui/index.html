@@ -10,7 +10,7 @@
   <div class="col-md-6">
     <div class="content" >{% block content %}
 {% verbatim %}
-    <div class="panel" ng-repeat="domain in domains.domains.domain">
+    <div class="panel" ng-repeat="domain in domains">
         {{ domain.name }}
         <form name="addForm">
             <input type="radio"
@@ -23,12 +23,13 @@ ng-model="data[$index].action"
 value="Permit">Permit
         </form>
         <button ng-click="sendDataToSocket(domain.name,$index)">click</button>
+         <button ng-click="updateConfig(domain.name,$index)">Update config</button>
     </div>
 
 </div>
   </div>
   <div class="col-md-6">
-    <div >
+    <div style="white-space:pre;">
        <span ng-bind="response"></span> 
     </div>
     

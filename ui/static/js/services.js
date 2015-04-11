@@ -5,43 +5,16 @@ cyberFeedServices.factory('sendData', ['$http',
 function ($http) {
     var message = ''
     var domains = []
-            
-            var url = 'http://localhost:8000/static/data/domains.xml'
-            $http.get(url).
-            success(function (data, status, headers, config) {
-                //console.log(data)
-                var x2js = new X2JS();
-                var json = x2js.xml_str2json( data );
-                console.log(json);
-                domains = json;
-            }).
-            error(function (data, status, headers, config) {
-                console.log(status)
-                //message = data.Error;
-            });
-           // return domains;
-                
-    var domains = [{
-        id: 1,
-        name: 'www.example.com'
-    }, {
-        id: 2,
-        name: 'www.example.it'
-    }, {
-        id: 3,
-        name: 'www.example.org'
-    }, {
-        id: 4,
-        name: 'www.example.net'
-    }];
+
     return {
         output: function () {
             return (message)
         },
-        send: function (json) {
-            $http.post('/socket/', json).
+        send: function (json,endpoint) {
+            message = 'loading...';
+            $http.post(endpoint, json).
             success(function (data, status, headers, config) {
-                console.log(data)
+                console.log(data.length)
                 message = data;
             }).
             error(function (data, status, headers, config) {
@@ -69,8 +42,10 @@ function ($http) {
             }).
             error(function (data, status, headers, config) {
                 console.log(status)
-                //message = data.Error;
+                message = status;
             });
+            
+            
             return domains;
         },        
         

@@ -6,22 +6,55 @@ cyberFeed.controller('cyberFeedController', ['$scope', 'sendData', function ($sc
     scope.data = {};
     scope.response = sendData.output();
     scope.$watch(sendData.output,
-
     function (newValue, oldValue, scope) {
-        console.log(newValue);
+        console.log(newValue.length);
+        
         if (newValue && newValue !== oldValue) {
-            $scope.response = newValue;
+            if (newValue.constructor === Array){
+            console.log('array')
+            scope.response = scope.test(newValue);
+            }
+            else {
+                scope.response = newValue;
+            }
+            
         }
     }, true);
     
     //scope.domains = sendData.domains;
     
-    scope.setData = function(data) {
-        console.log(data)
-        scope.domains = data;
+    scope.test = function(value) {
+        l=value.length;
+        console.log(l)
+        var output = '';
+        for (var i=0;i<l;i++){
+            console.log(value[i])
+            output += value[i]+'\n';
+        }
+        
+        return output;
     }
-         
-    sendData.getXML(scope.setData);
+    
+    //scope.setData = function(data) {
+    //    console.log('get domains')
+    //    scope.domains = data;
+    //}
+    //     
+    //sendData.getXML(scope.setData);
+    
+        scope.domains = [{
+        id: 1,
+        name: 'www.example.com'
+    }, {
+        id: 2,
+        name: 'www.example.it'
+    }, {
+        id: 3,
+        name: 'www.example.org'
+    }, {
+        id: 4,
+        name: 'www.example.net'
+    }];
    
 
     scope.callService = function () {
@@ -34,61 +67,15 @@ cyberFeed.controller('cyberFeedController', ['$scope', 'sendData', function ($sc
         var data = {}
         data.name = name;
         data.action = scope.data[index].action;
-        sendData.send(data);
-
-
-        //var json_response=function(){
-        //    return sendData.send(data);}
-        //console.log('response: ' +json_response())
-        //'test';
-        //$http.post('/socket/', data).
-        //success(function (data, status, headers, config) {
-        //    $scope.response = data;
-        //    console.log(data)
-        //    data_json = JSON.parse(data);
-        //    console.log(data_json)
-        //    $scope.response = data_json;
-        //}).
-        //error(function (data, status, headers, config) {
-        //    $scope.response = data;
-        //
-        //    // called asynchronously if an error occurs
-        //    // or server returns response with an error status.
-        //});
-
-        //$http.post('socket/', data)
-        ////.then(fetchTodos)
-        //.then(function(response) {
-        //    $scope.response=response.data;
-        //    console.log(response.data)
-        ////$scope.newTodo = {};
-        //}),
-        //function(error){console.log('error')};
+        sendData.send(data,'/socket/');
+    }
+    
+    scope.updateConfig = function (name, index) {
+        //console.log($scope.data[index])
+        var data = {}
+        data.name = name;
+        data.action = scope.data[index].action;
+        sendData.send(data,'/socket/update-config/');
     }
 }]);
 
-//cyberFeed.factory('sendData', ['$http',
-//
-//function ($http) {
-//    var message = ''
-//    return {
-//        output: function () {
-//            return (message)
-//        },
-//        send: function (json) {
-//            $http.post('/socket/', json).
-//            success(function (data, status, headers, config) {
-//                console.log(data)
-//                message = data;
-//            }).
-//            error(function (data, status, headers, config) {
-//                console.log(data)
-//                message = data.Error;
-//            });
-//        }
-//    };
-//}])
-//    .config(['$httpProvider', function ($httpProvider) {
-//    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-//    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-//}]);
